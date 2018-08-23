@@ -11,7 +11,7 @@ class LibExpatConan(ConanFile):
     description = "Fast XML parser in C"
     url = "https://github.com/bincrafters/conan-expat"
     license = "MIT"
-    exports = ["patches/CMakeProjectWrapper.txt"]
+    exports = ['patches/CMakeLists.txt', 'patches/FindEXPAT.cmake']
     generators = "cmake"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
@@ -24,14 +24,13 @@ class LibExpatConan(ConanFile):
         os.rename('libexpat-R_' + self.version.replace(".", "_"), self.source_subfolder)
 
     def build(self):
-        shutil.move("patches/CMakeProjectWrapper.txt", "CMakeLists.txt")
+        shutil.copyfile("patches/CMakeLists.txt", "CMakeLists.txt")
 
         cmake = CMake(self, parallel=True)
         cmake.definitions['BUILD_doc'] = False
         cmake.definitions['BUILD_examples'] = False
         cmake.definitions['BUILD_tests'] = False
         cmake.definitions['BUILD_tools'] = False
-        cmake.definitions['CMAKE_DEBUG_POSTFIX'] = 'd'
         cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = True
         cmake.definitions['BUILD_shared'] = self.options.shared
 
@@ -39,10 +38,9 @@ class LibExpatConan(ConanFile):
         cmake.build()
         cmake.install()
 
-    def package_info(self):
-        self.cpp_info.libs = ["expatd" if self.settings.build_type == "Debug" else "expat"]
-        if not self.options.shared:
-            self.cpp_info.defines = ["XML_STATIC"]
+    def package(self):
+        self.copy("FindEXPAT.cmake", src="patches", dst=".", keep_path=False)
 
-    def configure(self):
-        del self.settings.compiler.libcxx
+    def package_info(self):
+        self.cpp_info.libs = tools.collect_libs(self)
+
