@@ -19,6 +19,9 @@ class LibExpatConan(ConanFile):
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
 
+    def configure(self):
+        del self.settings.compiler.libcxx
+
     def source(self):
         tools.get("https://github.com/libexpat/libexpat/archive/R_{0}.tar.gz".format(self.version.replace(".", "_")))
         os.rename('libexpat-R_' + self.version.replace(".", "_"), self.source_subfolder)
