@@ -9,7 +9,7 @@ class LibExpatConan(ConanFile):
     name = "expat"
     version = "2.2.5"
     description = "Fast XML parser in C"
-    url = "https://github.com/bincrafters/conan-expat"
+    url = "https://git.ircad.fr/conan/conan-expat"
     license = "MIT"
     exports = ['patches/CMakeLists.txt', 'patches/FindEXPAT.cmake']
     generators = "cmake"
