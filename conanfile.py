@@ -6,8 +6,10 @@ import shutil
 from conans import CMake, ConanFile, tools
 
 class LibExpatConan(ConanFile):
-    name = "expat"
-    version = "2.2.5"
+    name = "expat"     
+    package_revision = "-r1"
+    upstream_version = "2.2.5"
+    version = "{0}{1}".format(upstream_version, package_revision)
     description = "Fast XML parser in C"
     url = "https://git.ircad.fr/conan/conan-expat"
     license = "MIT"
@@ -23,8 +25,8 @@ class LibExpatConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        tools.get("https://github.com/libexpat/libexpat/archive/R_{0}.tar.gz".format(self.version.replace(".", "_")))
-        os.rename('libexpat-R_' + self.version.replace(".", "_"), self.source_subfolder)
+        tools.get("https://github.com/libexpat/libexpat/archive/R_{0}.tar.gz".format(self.upstream_version.replace(".", "_")))
+        os.rename('libexpat-R_' + self.upstream_version.replace(".", "_"), self.source_subfolder)
 
     def build(self):
         shutil.copyfile("patches/CMakeLists.txt", "CMakeLists.txt")
