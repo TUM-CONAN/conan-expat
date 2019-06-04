@@ -37,6 +37,11 @@ class LibExpatConan(ConanFile):
         shutil.copyfile("patches/CMakeLists.txt", "CMakeLists.txt")
 
         cmake = CMake(self, parallel=True)
+
+        #Set common flags
+        cmake.definitions["CMAKE_C_FLAGS"] = common.get_c_flags()
+        cmake.definitions["CMAKE_CXX_FLAGS"] = common.get_cxx_flags()
+
         cmake.definitions['BUILD_doc'] = False
         cmake.definitions['BUILD_examples'] = False
         cmake.definitions['BUILD_tests'] = False
