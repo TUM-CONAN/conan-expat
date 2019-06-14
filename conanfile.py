@@ -32,15 +32,16 @@ class LibExpatConan(ConanFile):
         os.rename('libexpat-R_' + self.upstream_version.replace(".", "_"), self.source_subfolder)
 
     def build(self):
-        #Import common flags and defines
+        # Import common flags and defines
         import common
+
         shutil.copyfile("patches/CMakeLists.txt", "CMakeLists.txt")
 
         cmake = CMake(self, parallel=True)
 
-        #Set common flags
-        cmake.definitions["CMAKE_C_FLAGS"] = common.get_c_flags()
-        cmake.definitions["CMAKE_CXX_FLAGS"] = common.get_cxx_flags()
+        # Set common flags
+        cmake.definitions["SIGHT_CMAKE_C_FLAGS"] = common.get_c_flags()
+        cmake.definitions["SIGHT_CMAKE_CXX_FLAGS"] = common.get_cxx_flags()
 
         cmake.definitions['BUILD_doc'] = False
         cmake.definitions['BUILD_examples'] = False
