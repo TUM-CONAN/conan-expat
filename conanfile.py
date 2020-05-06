@@ -25,7 +25,7 @@ class LibExpatConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def requirements(self):
-        self.requires("ircad_common/1.0.0@camposs/stable")
+        self.requires("ircad_common/1.0.2@camposs/stable")
 
     def source(self):
         tools.get("https://github.com/libexpat/libexpat/archive/R_{0}.tar.gz".format(self.upstream_version.replace(".", "_")))
