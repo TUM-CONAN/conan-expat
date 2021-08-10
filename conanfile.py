@@ -7,7 +7,7 @@ from conans import CMake, ConanFile, tools
 
 class LibExpatConan(ConanFile):
     name = "expat"     
-    package_revision = "-r2"
+    package_revision = "-r3"
     upstream_version = "2.2.5"
     version = "{0}{1}".format(upstream_version, package_revision)
     description = "Fast XML parser in C"
@@ -25,7 +25,7 @@ class LibExpatConan(ConanFile):
         del self.settings.compiler.libcxx
 
     def requirements(self):
-        self.requires("ircad_common/1.0.2@camposs/stable")
+        self.requires("ircad_common/1.0.3@camposs/stable")
 
     def source(self):
         tools.get("https://github.com/libexpat/libexpat/archive/R_{0}.tar.gz".format(self.upstream_version.replace(".", "_")))
